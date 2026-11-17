@@ -9,15 +9,15 @@ Fine-tuning a small open LLM with QLoRA to turn Portuguese customer-service mess
 
 ## Results
 
-<!-- paste the table printed by src/evaluate.py here -->
+**Preliminary run** (17 Nov 2026): 10 hand-written test messages, 1,500 template-generated training examples, 2 epochs, Colab L4. With only 10 test examples one message = 10 points, so these numbers are a smoke test, not a result.
 
 | model | valid JSON | intent | valor | parcelas | dia_venc. | exact match | p50 latency | cost / 1k req |
 |---|---|---|---|---|---|---|---|---|
-| base (zero-shot) | | | | | | | | |
-| base + QLoRA | | | | | | | | |
+| Qwen2.5-1.5B-Instruct (zero-shot) | 100% | 80% | 90% | 100% | 90% | 70% | 1.32 s | — |
+| + QLoRA (r=16) | 100% | 90% | 100% | 100% | 90% | 80% | 2.19 s | — |
 | commercial API | | | | | | | | |
 
-Test set: N hand-written messages, never seen in training. Hardware: …
+Training: 170 steps in ~4 min, eval loss 0.106. Latency is higher with the LoRA adapter because it isn't merged into the base weights yet.
 
 ## What I found
 
@@ -40,7 +40,7 @@ python src/generate_data.py --mode llm --n 1500 --out data/train.jsonl
 python src/predict.py --backend hf --model Qwen/Qwen2.5-1.5B-Instruct --out results/pred_base.jsonl
 python src/predict.py --backend anthropic --model claude-haiku-5-5 --price-in X --price-out Y --out results/pred_api.jsonl
 
-# 3. fine-tune (Colab T4: notebooks/colab.ipynb)
+# 3. fine-tune (Colab L4: notebooks/colab.ipynb)
 python src/train_qlora.py --model Qwen/Qwen2.5-1.5B-Instruct --out outputs/lora
 
 # 4. evaluate
@@ -54,6 +54,11 @@ python src/evaluate.py --pred base=results/pred_base.jsonl lora=results/pred_lor
 - **Hard cases in the test set:** numbers that must *not* be extracted ("tenho 3 filhos", "paguei em 2024"), missing fields, slang and typos.
 - **Metric:** per-field accuracy plus exact match on all four fields. Money is compared to the cent.
 - …
+
+## Known issues
+
+- Training needs an Ampere-or-newer GPU (L4, A100). On a T4, current `trl` fails with a bf16 kernel error.
+- Colab's preinstalled `torchao` is too old for `peft`; the notebook uninstalls it.
 
 ## Error analysis
 
