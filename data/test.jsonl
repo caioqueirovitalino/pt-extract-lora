@@ -1,0 +1,10 @@
+{"id": "t001", "message": "oi, queria parcelar minha divida de 1.200 reais em 6x, pode ser todo dia 10?", "label": {"intent": "renegociar", "valor": 1200.0, "parcelas": 6, "dia_vencimento": 10}}
+{"id": "t002", "message": "boa tarde, preciso da 2a via do boleto pfv", "label": {"intent": "segunda_via", "valor": null, "parcelas": null, "dia_vencimento": null}}
+{"id": "t003", "message": "quanto ta minha divida hj?", "label": {"intent": "consultar_saldo", "valor": null, "parcelas": null, "dia_vencimento": null}}
+{"id": "t004", "message": "vcs me cobraram R$ 89,90 de uma coisa q eu nunca contratei", "label": {"intent": "contestar_cobranca", "valor": 89.9, "parcelas": null, "dia_vencimento": null}}
+{"id": "t005", "message": "quero cancelar o acordo q fiz mes passado", "label": {"intent": "cancelar", "valor": null, "parcelas": null, "dia_vencimento": null}}
+{"id": "t006", "message": "fiquei desempregado e nao consigo pagar tudo, da pra dividir em 12 vezes?", "label": {"intent": "renegociar", "valor": null, "parcelas": 12, "dia_vencimento": null}}
+{"id": "t007", "message": "vcs abrem sabado?", "label": {"intent": "outro", "valor": null, "parcelas": null, "dia_vencimento": null}}
+{"id": "t008", "message": "Bom dia. Tenho 3 filhos e recebo dia 5, entao preferia que o boleto vencesse dia 7. Divida de 2 mil.", "label": {"intent": "renegociar", "valor": 2000.0, "parcelas": null, "dia_vencimento": 7}}
+{"id": "t009", "message": "meu boleto de 340 venceu ontem, manda outro", "label": {"intent": "segunda_via", "valor": 340.0, "parcelas": null, "dia_vencimento": null}}
+{"id": "t010", "message": "paguei em 2024 e ainda tao me cobrando, absurdo", "label": {"intent": "contestar_cobranca", "valor": null, "parcelas": null, "dia_vencimento": null}}
