@@ -33,7 +33,7 @@ class HFBackend:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self.torch = torch
-        kwargs = {"torch_dtype": torch.bfloat16 if torch.cuda.is_available() else torch.float32}
+        kwargs = {"dtype": torch.bfloat16 if torch.cuda.is_available() else torch.float32}
         if load_4bit:
             from transformers import BitsAndBytesConfig
 

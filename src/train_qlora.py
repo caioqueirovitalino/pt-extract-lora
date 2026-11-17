@@ -64,14 +64,14 @@ def main():
         task_type="CAUSAL_LM",
     )
 
-    config = SFTConfig(
+    cfg = dict(
         output_dir=args.out,
         num_train_epochs=args.epochs,
         per_device_train_batch_size=8,
         gradient_accumulation_steps=2,
         learning_rate=args.lr,
         lr_scheduler_type="cosine",
-        warmup_ratio=0.05,
+        warmup_steps=10,
         logging_steps=10,
         eval_strategy="steps",
         eval_steps=50,
@@ -84,6 +84,14 @@ def main():
         seed=args.seed,
         report_to="none",
     )
+    # trl/transformers rename arguments between versions: drop any this version doesn't know.
+    import inspect
+
+    known = set(inspect.signature(SFTConfig.__init__).parameters)
+    dropped = sorted(k for k in cfg if k not in known)
+    if dropped:
+        print(f"note: SFTConfig in this trl version ignores {dropped}")
+    config = SFTConfig(**{k: v for k, v in cfg.items() if k in known})
 
     trainer = SFTTrainer(
         model=model,
